@@ -26,7 +26,7 @@ const corsOptions = {
     'http://localhost:3000',  
     'http://localhost:5173',  
     'http://127.0.0.1:3000',
-    'http://127.0.0.1:5173'
+    'http://127.0.0.1:5173','https://social-blogging-app-rouge.vercel.app'
 
   ],
   credentials: true,
@@ -50,11 +50,6 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/comments", commentRoute);
-// // Start server
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => {
-//   console.log(`✅ Server running on http://localhost:${PORT}`);
-// });
 
 const startServer = async () => {
   try {

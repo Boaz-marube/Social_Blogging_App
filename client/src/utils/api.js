@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Configuration - Updated for your backend
 const API_CONFIG = {
-  baseURL: 'http://localhost:8080', // Your backend port
+  baseURL: 'https://social-blogging-app-rouge.vercel.app/home', // Your backend port
   timeout: 10000,
   endpoints: {
     register: '/api/auth/signup',       // Matches your signup function
