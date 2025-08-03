@@ -284,7 +284,7 @@ const SignUp = () => {
 
   // Redirect if already authenticated
   if (isAuthenticated) {
-    return <Navigate to="/sign-in" replace />;
+    return <Navigate to="/signin" replace />;
   }
 
   const handleChange = (e) => {
@@ -389,14 +389,14 @@ const SignUp = () => {
         
         // Redirect to sign in page after successful registration
         setTimeout(() => {
-          navigate('/sign-in'); // Updated to match your SignIn route
+          navigate('/signin'); // Updated to match your SignIn route
         }, 2000);
       } else {
         // Handle specific error messages
         if (result.error.includes("User already exists")) {
           toast.error("An account with this email or username already exists.");
           setTimeout(() => {
-            navigate('/sign-in');
+            navigate('/signin');
           }, 2000);
         } else {
           toast.error(result.error || "Registration failed. Please try again.");
@@ -585,7 +585,7 @@ const SignUp = () => {
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
               <Link
-                to="/sign-in"
+                to="/signin"
                 className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
               >
                 Sign In
