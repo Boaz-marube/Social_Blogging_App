@@ -50,7 +50,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
-import Dashboard from "./pages/Dashboard";
+// import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import PublicRoute from "./components/PublicRoutes";
 import Layout from "./components/Layout";
@@ -90,14 +90,14 @@ function App() {
               />
 
               {/* Protected routes - require authentication */}
-              <Route
+              {/* <Route
                 path="/dashboard"
                 element={
                   <ProtectedRoute>
                     <Dashboard />
                   </ProtectedRoute>
                 }
-              />
+              /> */}
               <Route path="/home" element={<Home />} />
               <Route
                 path="/posts"
