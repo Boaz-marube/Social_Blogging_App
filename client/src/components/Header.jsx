@@ -8,24 +8,24 @@
 //   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 //   return (
-//     <header className="sticky top-0 z-10000 bg-white dark:bg-slate-800 shadow-lg px-4 sm:px-6 py-4 flex items-center justify-between h-16 transition-colors duration-300">
+//     <header className="sticky top-0 flex items-center justify-between h-16 px-4 py-4 transition-colors duration-300 bg-white shadow-lg z-10000 dark:bg-slate-800 sm:px-6">
 //       {/* Logo */}
 //       <div className="flex items-center space-x-2">
 //         <img src={logo} alt="Blog Logo" className="w-[150px] h-11" />
 //       </div>
 
 //       {/* Desktop Navigation */}
-//       <div className="hidden md:flex items-center gap-4">
+//       <div className="items-center hidden gap-4 md:flex">
 //         <ThemeToggle />
 //         <Link
 //           to="/signup"
-//           className="bg-purple-800 dark:bg-purple-600 text-white px-4 py-2 rounded-md text-sm dark:hover:bg-purple-700 transition-colors"
+//           className="px-4 py-2 text-sm text-white transition-colors bg-purple-800 rounded-md dark:bg-purple-600 dark:hover:bg-purple-700"
 //         >
 //           Sign Up
 //         </Link>
 //         <Link
 //           to="/sign-in"
-//           className="border border-purple-800 dark:border-purple-600 text-purple-800 dark:text-purple-300 px-4 py-2 rounded-md text-sm  transition-colors  hover:bg-purple-800 hover:text-white"
+//           className="px-4 py-2 text-sm text-purple-800 transition-colors border border-purple-800 rounded-md dark:border-purple-600 dark:text-purple-300 hover:bg-purple-800 hover:text-white"
 //         >
 //           Log In
 //         </Link>
@@ -33,7 +33,7 @@
 
 //       {/* Mobile Hamburger Button */}
 //       <button
-//         className="md:hidden p-2 text-gray-700 dark:text-gray-300"
+//         className="p-2 text-gray-700 md:hidden dark:text-gray-300"
 //         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
 //         aria-label="Toggle menu"
 //       >
@@ -42,20 +42,20 @@
 
 //       {/* Mobile Menu */}
 //       {mobileMenuOpen && (
-//         <div className="md:hidden absolute top-16 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg py-4 px-6 flex flex-col items-center gap-4 transition-all duration-300">
-//           <div className="w-full flex justify-center">
+//         <div className="absolute left-0 right-0 flex flex-col items-center gap-4 px-6 py-4 transition-all duration-300 bg-white shadow-lg md:hidden top-16 dark:bg-gray-800">
+//           <div className="flex justify-center w-full">
 //             <ThemeToggle />
 //           </div>
 //           <Link
 //             to="/signup"
-//             className="w-full text-center bg-purple-800 dark:bg-purple-600 text-white px-4 py-2 rounded-md text-sm hover:bg-purple-900 dark:hover:bg-purple-700 transition-colors"
+//             className="w-full px-4 py-2 text-sm text-center text-white transition-colors bg-purple-800 rounded-md dark:bg-purple-600 hover:bg-purple-900 dark:hover:bg-purple-700"
 //             onClick={() => setMobileMenuOpen(false)}
 //           >
 //             Sign Up
 //           </Link>
 //           <Link
 //             to="/sign-in"
-//             className="w-full text-center border border-purple-800 dark:border-purple-600 text-purple-800 dark:text-purple-300 px-4 py-2 rounded-md text-sm hover:bg-purple-50 dark:hover:bg-gray-700 transition-colors"
+//             className="w-full px-4 py-2 text-sm text-center text-purple-800 transition-colors border border-purple-800 rounded-md dark:border-purple-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-gray-700"
 //             onClick={() => setMobileMenuOpen(false)}
 //           >
 //             Log In
@@ -78,14 +78,14 @@ export default function Header() {
   const { user, logout } = useAuth(); // 👈 use context
 
   return (
-    <header className="sticky top-0 z-10000 bg-white dark:bg-slate-800 shadow-lg px-4 sm:px-6 py-4 flex items-center justify-between h-16 transition-colors duration-300">
+    <header className="sticky top-0 z-50 flex items-center justify-between h-16 px-4 py-4 transition-colors duration-300 bg-white shadow-lg dark:bg-slate-800 sm:px-6">
       {/* Logo */}
       <div className="flex items-center space-x-2">
         <img src={logo} alt="Blog Logo" className="w-[150px] h-11" />
       </div>
 
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-4">
+      <div className="items-center hidden gap-4 md:flex">
         <ThemeToggle />
         {user ? (
           <>
@@ -94,7 +94,7 @@ export default function Header() {
             </span>
             <button
               onClick={logout}
-              className="border border-red-600 text-red-600 px-4 py-2 rounded-md text-sm hover:bg-red-600 hover:text-white transition-colors"
+              className="px-4 py-2 text-sm text-red-600 transition-colors border border-red-600 rounded-md hover:bg-red-600 hover:text-white"
             >
               Logout
             </button>
@@ -103,13 +103,13 @@ export default function Header() {
           <>
             <Link
               to="/signup"
-              className="bg-purple-800 dark:bg-purple-600 text-white px-4 py-2 rounded-md text-sm dark:hover:bg-purple-700 transition-colors"
+              className="px-4 py-2 text-sm text-white transition-colors bg-purple-800 rounded-md dark:bg-purple-600 dark:hover:bg-purple-700"
             >
               Sign Up
             </Link>
             <Link
               to="/sign-in"
-              className="border border-purple-800 dark:border-purple-600 text-purple-800 dark:text-purple-300 px-4 py-2 rounded-md text-sm hover:bg-purple-800 hover:text-white transition-colors"
+              className="px-4 py-2 text-sm text-purple-800 transition-colors border border-purple-800 rounded-md dark:border-purple-600 dark:text-purple-300 hover:bg-purple-800 hover:text-white"
             >
               Log In
             </Link>
@@ -119,7 +119,7 @@ export default function Header() {
 
       {/* Mobile Hamburger */}
       <button
-        className="md:hidden p-2 text-gray-700 dark:text-gray-300"
+        className="p-2 text-gray-700 md:hidden dark:text-gray-300"
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         aria-label="Toggle menu"
       >
@@ -128,7 +128,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-16 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg py-4 px-6 flex flex-col items-center gap-4 transition-all duration-300">
+        <div className="absolute left-0 right-0 flex flex-col items-center gap-4 px-6 py-4 transition-all duration-300 bg-white shadow-lg md:hidden top-16 dark:bg-gray-800">
           <ThemeToggle />
           {user ? (
             <>
@@ -140,7 +140,7 @@ export default function Header() {
                   logout();
                   setMobileMenuOpen(false);
                 }}
-                className="w-full text-center border border-red-600 text-red-600 px-4 py-2 rounded-md text-sm hover:bg-red-600 hover:text-white transition-colors"
+                className="w-full px-4 py-2 text-sm text-center text-red-600 transition-colors border border-red-600 rounded-md hover:bg-red-600 hover:text-white"
               >
                 Logout
               </button>
@@ -150,14 +150,14 @@ export default function Header() {
               <Link
                 to="/signup"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center bg-purple-800 dark:bg-purple-600 text-white px-4 py-2 rounded-md text-sm hover:bg-purple-900 dark:hover:bg-purple-700 transition-colors"
+                className="w-full px-4 py-2 text-sm text-center text-white transition-colors bg-purple-800 rounded-md dark:bg-purple-600 hover:bg-purple-900 dark:hover:bg-purple-700"
               >
                 Sign Up
               </Link>
               <Link
                 to="/sign-in"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center border border-purple-800 dark:border-purple-600 text-purple-800 dark:text-purple-300 px-4 py-2 rounded-md text-sm hover:bg-purple-50 dark:hover:bg-gray-700 transition-colors"
+                className="w-full px-4 py-2 text-sm text-center text-purple-800 transition-colors border border-purple-800 rounded-md dark:border-purple-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-gray-700"
               >
                 Log In
               </Link>

@@ -9,7 +9,7 @@ import DashBoard from "./pages/DashBoard";
 import ForgotPassword from "./pages/ForgetPassword";
 import CreatePost from "./pages/CreatePost";
 import ProtectedRoute from "./components/ProtectedRoutes";
-
+import { ToastContainer } from "react-toastify";
 export default function App() {
   return (
     <BrowserRouter>
@@ -18,17 +18,21 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <DashBoard />
-          </ProtectedRoute>
-        } />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashBoard />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/createpost" element={<CreatePost />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forget-password" element={<ForgotPassword />} />
         </Route>
       </Routes>
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </BrowserRouter>
   );
 }
