@@ -108,8 +108,8 @@ export default function Header() {
               Sign Up
             </Link>
             <Link
-              to="/sign-in"
-              className="px-4 py-2 text-sm text-purple-800 transition-colors border border-purple-800 rounded-md dark:border-purple-600 dark:text-purple-300 hover:bg-purple-800 hover:text-white"
+              to="/signin"
+              className="border border-purple-800 dark:border-purple-600 text-purple-800 dark:text-purple-300 px-4 py-2 rounded-md text-sm hover:bg-purple-800 hover:text-white transition-colors"
             >
               Log In
             </Link>
