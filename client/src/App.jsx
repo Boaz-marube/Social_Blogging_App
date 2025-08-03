@@ -14,6 +14,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
+
 import Dashboard from "./pages/DashBoard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import PublicRoute from "./components/PublicRoutes";
@@ -54,23 +55,23 @@ function App() {
               />
 
               {/* Protected routes - require authentication */}
-              <Route
+                <Route
                 path="/dashboard"
                 element={
                   <ProtectedRoute>
                     <Dashboard />
                   </ProtectedRoute>
                 }
-              />
+              /> 
               <Route path="/home" element={<Home />} />
-              <Route
+               <Route
                 path="/posts"
                 element={
                   <ProtectedRoute>
                     <Dashboard />
                   </ProtectedRoute>
                 }
-              />
+              /> 
               <Route
                 path="/create-post"
                 element={
