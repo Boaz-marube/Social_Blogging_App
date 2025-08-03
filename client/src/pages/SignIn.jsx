@@ -253,14 +253,6 @@ const SignIn = () => {
     <div className="min-h-[calc(100vh-64px)] bg-white dark:bg-slate-900 flex flex-col justify-center py-3 sm:px-6 lg:px-8 transition-colors duration-300">
       <ToastContainer />
       
-      {/* Debug Info
-      <div className="sm:mx-auto sm:w-full sm:max-w-md mb-4">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
-          <h3 className="text-sm font-medium text-yellow-800">Debug Info:</h3>
-          <p className="text-xs text-yellow-700">Check browser console for detailed logs</p>
-          <p className="text-xs text-yellow-700">API URL: {process.env.REACT_APP_API_URL || 'http://localhost:5000/api'}</p>
-        </div>
-      </div> */}
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -324,13 +316,16 @@ const SignIn = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center flex justify-between">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
               <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Sign up
               </Link>
             </p>
+            <Link to="/forgot-password" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                Forgot Password ?
+              </Link>
           </div>
         </div>
       </div>

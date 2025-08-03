@@ -55,6 +55,7 @@ import ProtectedRoute from "./components/ProtectedRoutes";
 import PublicRoute from "./components/PublicRoutes";
 import Layout from "./components/Layout";
 import DashBoard from "./pages/Dashboard";
+import ForgotPassword from "./pages/ForgetPassword";
 
 function App() {
   return (
@@ -77,6 +78,14 @@ function App() {
                 element={
                   <PublicRoute>
                     <SignUp />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/forgot-password"
+                element={
+                  <PublicRoute>
+                    <ForgotPassword />
                   </PublicRoute>
                 }
               />
