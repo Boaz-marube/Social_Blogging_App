@@ -25,7 +25,7 @@ const ChatbotUI = ({ onClose }) => {
   const chatContainerRef = useRef(null);
 
   // API Configuration
-  const API_BASE_URL = "https://social-blogging-app-3z4g.onrender.com";
+  const API_BASE_URL = "https://social-blogging-api.onrender.com";
 
   // Sample questions relevant to a blog assistant
   const sampleQuestions = [
@@ -43,12 +43,12 @@ const ChatbotUI = ({ onClose }) => {
     }
   }, [messages, isTyping]);
 
-  // Function to call your API and get a bot response
+  // Function to call API and get a bot response
   const triggerBotResponse = async (currentMessages, userMessage) => {
     setIsTyping(true);
     
     try {
-      // Make API call to your deployed backend
+      // Make API call to deployed backend
       const response = await fetch(`${API_BASE_URL}/api/generate-blog`, {
         method: 'POST',
         headers: {
