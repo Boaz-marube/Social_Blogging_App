@@ -355,7 +355,7 @@ export const authAPI = {
     try {
       // Your backend expects: emailOrUsername, password
       const requestData = {
-        emailOrUsername: credentials.email, // Can be email or username
+        emailOrUsername: credentials.emailOrUsername, // Can be email or username
         password: credentials.password
       };
       
