@@ -198,3 +198,68 @@ export const getAllPost = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch posts" });
   }
 };
+// Like a post
+export const likePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id; // From auth middleware
+
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // Check if user already liked the post
+    const alreadyLiked = post.likes.includes(userId);
+
+    let updatedPost;
+    if (alreadyLiked) {
+      // Remove like (dislike)
+      updatedPost = await Post.findByIdAndUpdate(
+        id,
+        { $pull: { likes: userId } },
+        { new: true }
+      );
+    } else {
+      // Add like
+      updatedPost = await Post.findByIdAndUpdate(
+        id,
+        { $addToSet: { likes: userId } }, // $addToSet prevents duplicates
+        { new: true }
+      );
+    }
+
+    res.json({
+      success: true,
+      data: updatedPost,
+      action: alreadyLiked ? "disliked" : "liked",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update like status" });
+  }
+};
+
+// Check if user liked a post (for initial state)
+export const checkUserLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id; // From auth middleware
+
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    const isLiked = post.likes.includes(userId);
+
+    res.json({
+      success: true,
+      isLiked,
+      likeCount: post.likes.length,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to check like status" });
+  }
+};

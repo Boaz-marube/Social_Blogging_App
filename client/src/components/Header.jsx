@@ -137,6 +137,11 @@ export default function Header() {
   };
 
   return (
+    <header className="sticky top-0 z-50 flex items-center justify-between h-16 px-4 py-4 transition-colors duration-300 bg-white shadow-lg dark:bg-slate-800 sm:px-6">
+      {/* Logo */}
+      <div className="flex items-center space-x-2">
+        <img src={logo} alt="Blog Logo" className="w-[150px] h-11" />
+      </div>
     <>
       <header className="sticky top-0 z-10000 bg-white dark:bg-slate-800 shadow-lg px-4 sm:px-6 py-4 flex items-center justify-between h-16 transition-colors duration-300">
         {/* Logo */}

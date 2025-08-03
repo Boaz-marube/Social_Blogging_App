@@ -6,6 +6,8 @@ import {
   getAllPost,
   getPost,
   updatePost,
+  likePost,
+  checkUserLike,
 } from "../controllers/postController.js";
 import { uploadCoverImage } from "../middleware/uploadMiddleware.js";
 import { verifyToken } from "../middleware/verifyToken.js";
@@ -21,5 +23,6 @@ router.delete("/:id", deletePost);
 router.get("/:id", getPost);
 // GET ALL POSTS
 router.get("/", getAllPost);
-
+router.post("/:id/like", likePost);
+router.get("/:id/check-like", checkUserLike);
 export default router;
