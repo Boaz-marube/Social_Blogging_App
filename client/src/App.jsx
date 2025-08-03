@@ -58,103 +58,79 @@ import DashBoard from "./pages/Dashboard";
 
 function App() {
   return (
-    <>
-      <AuthProvider>
-        <Router>
-          <div className="App">
-            <Routes>
-              {/* Public routes - redirect to dashboard if already authenticated */}
-              <Route element={<Layout />}>
-                <Route
-                  path="/signin"
-                  element={
-                    <PublicRoute>
-                      <SignIn />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="/signup"
-                  element={
-                    <PublicRoute>
-                      <SignUp />
-                    </PublicRoute>
-                  }
-                />
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Public routes - redirect to dashboard if already authenticated */}
+            <Route element={<Layout />}>
+              <Route
+                path="/signin"
+                element={
+                  <PublicRoute>
+                    <SignIn />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <PublicRoute>
+                    <SignUp />
+                  </PublicRoute>
+                }
+              />
 
-                {/* Protected routes - require authentication */}
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/home" element={<Home />} />
-                <Route
-                  path="/posts"
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/create-post"
-                  element={
-                    <ProtectedRoute>
-                      <CreatePost />
-                    </ProtectedRoute>
-                  }
-                />
+              {/* Protected routes - require authentication */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/home" element={<Home />} />
+              <Route
+                path="/posts"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/create-post"
+                element={
+                  <ProtectedRoute>
+                    <CreatePost />
+                  </ProtectedRoute>
+                }
+              />
 
-                {/* Default route */}
-                <Route path="/" element={<Navigate to="/home" replace />} />
+              {/* Default route */}
+              <Route path="/" element={<Navigate to="/home" replace />} />
 
-                {/* Catch all route */}
-                <Route path="*" element={<Navigate to="/home" replace />} />
-              </Route>
-            </Routes>
+              {/* Catch all route */}
+              <Route path="*" element={<Navigate to="/home" replace />} />
+            </Route>
+          </Routes>
 
-            {/* Global Toast Container */}
-            <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </div>
-        </Router>
-      </AuthProvider>
-      <BrowserRouter>
-        {/* <ScrollToTop /> */}
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashBoard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/createpost" element={<CreatePost />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forget-password" element={<ForgotPassword />} />
-          </Route>
-        </Routes>
-        <ToastContainer position="bottom-right" autoClose={3000} />
-      </BrowserRouter>
-    </>
+          {/* Global Toast Container */}
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
