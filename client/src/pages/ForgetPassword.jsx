@@ -33,7 +33,7 @@ const ForgotPassword = () => {
     <div className="min-h-[calc(100vh-64px)] bg-gray-300 dark:bg-slate-900 flex flex-col justify-center py-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <a
-          href="/sign-in"
+          href="/signin"
           className="flex items-center justify-center text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 mb-4"
         >
           <FiArrowLeft className="mr-1" /> Back to login
