@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // Configuration - Updated for your backend
 const API_CONFIG = {
+
   baseURL: 'https://social-blogging-app-hz1t.onrender.com/', // Your backend port
   timeout: 10000,
   endpoints: {
