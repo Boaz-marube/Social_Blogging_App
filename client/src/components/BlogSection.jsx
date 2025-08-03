@@ -7,7 +7,7 @@ import FilterBar from "./FilterBar";
 import Toast from "./Toast";
 
 // Base API URL
-const API_BASE_URL = "http://localhost:8080/api/posts";
+const API_BASE_URL = "https://social-blogging-app-1-yul1.onrender.com";
 
 export default function BlogSection() {
   const [posts, setPosts] = useState([]);
