@@ -270,7 +270,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
-import CreatePageNav from "./CreatepageNav";
+// import CreatePageNav from "./CreatepageNav";
 import GlobalNav from "./NavComponent"; // Import the new global nav
 import logo from "../../src/assets/blog_logo.svg";
 import { FiMenu, FiX, FiHome, FiGrid, FiFileText } from "react-icons/fi";
@@ -297,7 +297,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-10000 bg-white dark:bg-slate-800 shadow-lg px-4 sm:px-6 py-4 flex items-center justify-between h-16 transition-colors duration-300">
+      <header className="sticky top-0 z-50 bg-white dark:bg-slate-800 shadow-lg px-4 sm:px-6 py-4 flex items-center justify-between h-16 transition-colors duration-300">
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <img src={logo} alt="Blog Logo" className="w-[150px] h-11" />
@@ -416,7 +416,7 @@ export default function Header() {
       </header>
       
       {/* Create Page Navigation - Only shows on /create route */}
-      <CreatePageNav />
+      {/* <CreatePageNav /> */}
     </>
   );
 }
