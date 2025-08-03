@@ -54,7 +54,6 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import PublicRoute from "./components/PublicRoutes";
 import Layout from "./components/Layout";
-import DashBoard from "./pages/Dashboard";
 import ForgotPassword from "./pages/ForgetPassword";
 
 function App() {
