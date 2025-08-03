@@ -23,6 +23,6 @@ router.delete("/:id", deletePost);
 router.get("/:id", getPost);
 // GET ALL POSTS
 router.get("/", getAllPost);
-router.post("/:id/like", likePost);
-router.get("/:id/check-like", checkUserLike);
+router.post("/:id/like", verifyToken, likePost);
+router.get("/:id/check-like", verifyToken, checkUserLike);
 export default router;
