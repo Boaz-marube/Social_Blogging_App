@@ -31,18 +31,22 @@ export default function BlogSection() {
     "Finance",
   ];
 
+
   const fetchPosts = async (page = 1, category = null) => {
     try {
       setIsLoading(true);
       let url = `${API_BASE_URL}?page=${page}&limit=6`;
-
+  
       if (category && category !== "All") {
         url += `&category=${category}`;
       }
-
+  
       const response = await axios.get(url);
-      setPosts(response.data.data);
-      setTotalPosts(response.data.pagination.totalPosts);
+      
+      // The backend returns: { success: true, data: posts, pagination: {...} }
+      // So we access response.data.data for posts and response.data.pagination for pagination
+      setPosts(response.data.data || []);
+      setTotalPosts(response.data.pagination?.totalPosts || 0);
       setCurrentPage(page);
       setSelectedCategory(category || "All");
       setError(null);
@@ -55,6 +59,30 @@ export default function BlogSection() {
       setIsLoading(false);
     }
   };
+  // const fetchPosts = async (page = 1, category = null) => {
+  //   try {
+  //     setIsLoading(true);
+  //     let url = `${API_BASE_URL}?page=${page}&limit=6`;
+
+  //     if (category && category !== "All") {
+  //       url += `&category=${category}`;
+  //     }
+
+  //     const response = await axios.get(url);
+  //     setPosts(response.data.data);
+  //     setTotalPosts(response.data.pagination.totalPosts);
+  //     setCurrentPage(page);
+  //     setSelectedCategory(category || "All");
+  //     setError(null);
+  //   } catch (err) {
+  //     console.error("Failed to fetch posts:", err);
+  //     setError("Failed to load posts. Please try again later.");
+  //     setPosts([]);
+  //     setTotalPosts(0);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     fetchPosts();
