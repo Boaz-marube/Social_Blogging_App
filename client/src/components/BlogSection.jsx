@@ -339,6 +339,44 @@ export default function BlogSection() {
     "Finance",
   ];
 
+  // const fetchPosts = async (page = 1, category = null) => {
+  //   try {
+  //     setIsLoading(true);
+  //     let url = `${API_BASE_URL}?page=${page}&limit=6`;
+  
+  //     if (category && category !== "All") {
+  //       url += `&category=${category}`;
+  //     }
+  
+  //     const response = await axios.get(url);
+      
+  //     // The backend returns: { success: true, data: posts, pagination: {...} }
+  //     // So we access response.data.data for posts and response.data.pagination for pagination
+  //     setPosts(response.data.data || []);
+  //     setTotalPosts(response.data.pagination?.totalPosts || 0);
+  //     setCurrentPage(page);
+  //     setSelectedCategory(category || "All");
+  //     setError(null);
+  //     setUsingPlaceholders(false);
+  //   } catch (err) {
+  //     console.error("Failed to fetch posts:", err);
+      
+  //     // Use placeholder posts as fallback
+  //     const filteredPlaceholders = category && category !== "All" 
+  //       ? PLACEHOLDER_POSTS.filter(post => post.category === category)
+  //       : PLACEHOLDER_POSTS;
+      
+  //     setPosts(filteredPlaceholders);
+  //     setTotalPosts(filteredPlaceholders.length);
+  //     setCurrentPage(1);
+  //     setSelectedCategory(category || "All");
+  //     setError("Using sample posts - unable to connect to server");
+  //     setUsingPlaceholders(true);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const fetchPosts = async (page = 1, category = null) => {
     try {
       setIsLoading(true);
@@ -350,19 +388,25 @@ export default function BlogSection() {
   
       const response = await axios.get(url);
       
+      // Check if we actually got posts or if the response is empty
+      if (!response.data || !response.data.data || response.data.data.length === 0) {
+        throw new Error("No posts returned from API or empty response");
+      }
+      
       // The backend returns: { success: true, data: posts, pagination: {...} }
       // So we access response.data.data for posts and response.data.pagination for pagination
-      setPosts(response.data.data || []);
-      setTotalPosts(response.data.pagination?.totalPosts || 0);
+      setPosts(response.data.data);
+      setTotalPosts(response.data.pagination?.totalPosts || response.data.data.length);
       setCurrentPage(page);
       setSelectedCategory(category || "All");
       setError(null);
       setUsingPlaceholders(false);
+      
     } catch (err) {
       console.error("Failed to fetch posts:", err);
       
       // Use placeholder posts as fallback
-      const filteredPlaceholders = category && category !== "All" 
+      const filteredPlaceholders = (category && category !== "All") 
         ? PLACEHOLDER_POSTS.filter(post => post.category === category)
         : PLACEHOLDER_POSTS;
       
@@ -372,10 +416,16 @@ export default function BlogSection() {
       setSelectedCategory(category || "All");
       setError("Using sample posts - unable to connect to server");
       setUsingPlaceholders(true);
+      
+      // Debug logging
+      console.log("Using placeholder posts:", filteredPlaceholders.length, "posts");
+      console.log("Category filter:", category);
+      
     } finally {
       setIsLoading(false);
     }
   };
+
 
   useEffect(() => {
     fetchPosts();
