@@ -41,7 +41,7 @@ export default function BlogSection() {
         url += `&category=${category}`;
       }
   
-      const response = await axios.get(url);
+      const response = await axios.get("https://social-blogging-app-hz1t.onrender.com/posts/");
       
       // The backend returns: { success: true, data: posts, pagination: {...} }
       // So we access response.data.data for posts and response.data.pagination for pagination
