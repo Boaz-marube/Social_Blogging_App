@@ -104,9 +104,9 @@ const CreatePostForm = () => {
 
       // Use your API service
 
-    //   const response = await apiCall.post('https://social-blogging-app-hz1t.onrender.com/api/posts', postData, {
+      const response = await apiCall.post('https://social-blogging-app-hz1t.onrender.com/api/posts', postData, {
 
-      const response = await axios.post('https://social-blogging-app-hz1t.onrender.com/api/posts', postData, {
+    //   const response = await axios.post('https://social-blogging-app-hz1t.onrender.com/api/posts', postData, {
 
         headers: {
           'Content-Type': 'multipart/form-data',
