@@ -19,7 +19,7 @@ const PostCard = ({ post, onBookmarkToggle, onReadMoreClick }) => {
         if (!isAuthenticated || authLoading) return;
 
         const response = await axios.get(
-          `http://localhost:8080/api/posts/${post._id}/check-like`,
+          `https://social-blogging-app-hz1t.onrender.com/api/posts/${post._id}/check-like`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -42,7 +42,7 @@ const PostCard = ({ post, onBookmarkToggle, onReadMoreClick }) => {
       if (post.coverImage.startsWith("http")) {
         setImageUrl(post.coverImage);
       } else {
-        setImageUrl(`http://localhost:8080${post.coverImage}`);
+        setImageUrl(`https://social-blogging-app-hz1t.onrender.com${post.coverImage}`);
       }
     } else {
       setImageUrl("https://placehold.co/600x400/94a3b8/ffffff?text=Blog+Image");
@@ -61,7 +61,7 @@ const PostCard = ({ post, onBookmarkToggle, onReadMoreClick }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/posts/${post._id}/like`,
+        `https://social-blogging-app-hz1t.onrender.com/api/posts/${post._id}/like`,
         {},
         {
           headers: {

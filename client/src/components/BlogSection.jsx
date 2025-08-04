@@ -339,6 +339,298 @@ export default function BlogSection() {
     "Finance",
   ];
 
+
+// Base API URL - try different endpoint variations
+const API_BASE_URL = "https://social-blogging-app-hz1t.onrender.com";
+
+const fetchPosts = async (page = 1, category = null) => {
+  try {
+    setIsLoading(true);
+    
+    // Try different possible endpoints
+    const possibleEndpoints = [
+      `/api/posts?page=${page}&limit=6`,
+      `/posts?page=${page}&limit=6`,
+      `/api/blogs?page=${page}&limit=6`,
+      `/blogs?page=${page}&limit=6`
+    ];
+    
+    let url = possibleEndpoints[0]; // Start with most common
+    
+    if (category && category !== "All") {
+      url += `&category=${encodeURIComponent(category)}`;
+    }
+    
+    const fullUrl = `${API_BASE_URL}${url}`;
+    console.log("🚀 Attempting to fetch from:", fullUrl);
+    
+    const response = await axios.get(fullUrl, {
+      timeout: 10000,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+    
+    console.log("✅ Response received:", {
+      status: response.status,
+      statusText: response.statusText,
+      data: response.data,
+      dataType: typeof response.data,
+      keys: response.data ? Object.keys(response.data) : 'no keys'
+    });
+    
+    // Handle different possible response structures
+    let posts = [];
+    let totalPosts = 0;
+    
+    if (response.data) {
+      // Try different response structures
+      if (response.data.data && Array.isArray(response.data.data)) {
+        // Structure: { success: true, data: [...], pagination: {...} }
+        posts = response.data.data;
+        totalPosts = response.data.pagination?.totalPosts || posts.length;
+      } else if (Array.isArray(response.data)) {
+        // Direct array structure: [...]
+        posts = response.data;
+        totalPosts = posts.length;
+      } else if (response.data.posts && Array.isArray(response.data.posts)) {
+        // Structure: { posts: [...], total: 123 }
+        posts = response.data.posts;
+        totalPosts = response.data.total || posts.length;
+      } else if (response.data.results && Array.isArray(response.data.results)) {
+        // Structure: { results: [...], count: 123 }
+        posts = response.data.results;
+        totalPosts = response.data.count || posts.length;
+      }
+    }
+    
+    if (posts.length === 0) {
+      console.log("⚠️ No posts found in response, trying fallback endpoints...");
+      throw new Error("No posts found in response");
+    }
+    
+    console.log("🎉 Successfully loaded", posts.length, "posts from server");
+    setPosts(posts);
+    setTotalPosts(totalPosts);
+    setCurrentPage(page);
+    setSelectedCategory(category || "All");
+    setError(null);
+    setUsingPlaceholders(false);
+    
+  } catch (err) {
+    console.group("❌ Error fetching posts:");
+    console.log("Error:", err.message);
+    
+    if (err.response) {
+      console.log("Server response:", err.response.status, err.response.data);
+    }
+    console.groupEnd();
+    
+    // If first endpoint fails, try the others
+    if (err.response?.status === 404) {
+      console.log("🔄 Trying alternative endpoints...");
+      // You could implement automatic fallback to other endpoints here
+    }
+    
+    // Use placeholder posts as fallback
+    const filteredPlaceholders = (category && category !== "All") 
+      ? PLACEHOLDER_POSTS.filter(post => post.category === category)
+      : PLACEHOLDER_POSTS;
+    
+    console.log("🔄 Using", filteredPlaceholders.length, "placeholder posts as fallback");
+    
+    setPosts(filteredPlaceholders);
+    setTotalPosts(filteredPlaceholders.length);
+    setCurrentPage(1);
+    setSelectedCategory(category || "All");
+    setError(`Unable to load posts from server. ${err.response?.status === 404 ? 'API endpoint not found.' : 'Server error.'}`);
+    setUsingPlaceholders(true);
+    
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+// Enhanced server testing
+const testServerConnection = async () => {
+  console.log("🔍 Testing server endpoints...");
+  
+  const endpointsToTest = [
+    '',
+    '/api/posts',
+    '/posts', 
+    '/api/blogs',
+    '/blogs',
+    '/api',
+    '/health'
+  ];
+  
+  for (const endpoint of endpointsToTest) {
+    try {
+      const url = `${API_BASE_URL}${endpoint}`;
+      console.log(`Testing: ${url}`);
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' }
+      });
+      
+      const contentType = response.headers.get('content-type');
+      let data;
+      
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        data = await response.text();
+      }
+      
+      console.log(`✅ ${endpoint || 'root'}:`, {
+        status: response.status,
+        contentType,
+        data: typeof data === 'string' ? data.substring(0, 100) + '...' : data
+      });
+      
+    } catch (error) {
+      console.log(`❌ ${endpoint || 'root'}:`, error.message);
+    }
+  }
+};
+
+
+  // const fetchPosts = async (page = 1, category = null) => {
+  //   try {
+  //     setIsLoading(true);
+  //     let url = `${API_BASE_URL}?page=${page}&limit=6`;
+  
+  //     if (category && category !== "All") {
+  //       url += `&category=${category}`;
+  //     }
+  
+  //     console.log("🚀 Attempting to fetch from:", url);
+  //     console.log("📡 API_BASE_URL:", API_BASE_URL);
+      
+  //     // Add timeout and better error handling
+  //     const response = await axios.get(url, {
+  //       timeout: 10000, // 10 second timeout
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json'
+  //       }
+  //     });
+      
+  //     console.log("✅ Response received:", {
+  //       status: response.status,
+  //       statusText: response.statusText,
+  //       data: response.data,
+  //       dataType: typeof response.data,
+  //       hasData: !!response.data?.data,
+  //       dataLength: response.data?.data?.length || 0
+  //     });
+      
+  //     // Check if we actually got posts or if the response is empty
+  //     if (!response.data || !response.data.data || response.data.data.length === 0) {
+  //       console.log("⚠️ Empty response, falling back to placeholders");
+  //       throw new Error("No posts returned from API or empty response");
+  //     }
+      
+  //     // Success path
+  //     console.log("🎉 Successfully loaded", response.data.data.length, "posts from server");
+  //     setPosts(response.data.data);
+  //     setTotalPosts(response.data.pagination?.totalPosts || response.data.data.length);
+  //     setCurrentPage(page);
+  //     setSelectedCategory(category || "All");
+  //     setError(null);
+  //     setUsingPlaceholders(false);
+      
+  //   } catch (err) {
+  //     console.group("❌ Error fetching posts:");
+  //     console.log("Error type:", err.name);
+  //     console.log("Error message:", err.message);
+  //     console.log("Error code:", err.code);
+      
+  //     if (err.response) {
+  //       // Server responded with error status
+  //       console.log("Server responded with error:");
+  //       console.log("Status:", err.response.status);
+  //       console.log("Status text:", err.response.statusText);
+  //       console.log("Response data:", err.response.data);
+  //     } else if (err.request) {
+  //       // Request was made but no response received
+  //       console.log("No response received:");
+  //       console.log("Request details:", err.request);
+  //     } else {
+  //       // Something else happened
+  //       console.log("Request setup error:", err.message);
+  //     }
+  //     console.groupEnd();
+      
+  //     // Test if it's a CORS issue
+  //     if (err.message.includes('CORS') || err.message.includes('Access-Control')) {
+  //       console.log("🚫 CORS issue detected");
+  //     }
+      
+  //     // Test if it's a network issue
+  //     if (err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED' || err.message.includes('Network Error')) {
+  //       console.log("🌐 Network connectivity issue detected");
+  //     }
+      
+  //     // Use placeholder posts as fallback
+  //     const filteredPlaceholders = (category && category !== "All") 
+  //       ? PLACEHOLDER_POSTS.filter(post => post.category === category)
+  //       : PLACEHOLDER_POSTS;
+      
+  //     console.log("🔄 Using", filteredPlaceholders.length, "placeholder posts as fallback");
+      
+  //     setPosts(filteredPlaceholders);
+  //     setTotalPosts(filteredPlaceholders.length);
+  //     setCurrentPage(1);
+  //     setSelectedCategory(category || "All");
+  //     setError(`Unable to connect to server: ${err.message}`);
+  //     setUsingPlaceholders(true);
+      
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+  
+  // // Also add this helper function to test the server directly
+  // const testServerConnection = async () => {
+  //   console.log("🔍 Testing server connection...");
+    
+  //   try {
+  //     // Test basic connectivity
+  //     const response = await fetch(API_BASE_URL, {
+  //       method: 'GET',
+  //       mode: 'cors',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       }
+  //     });
+      
+  //     console.log("🔗 Server connection test:", {
+  //       ok: response.ok,
+  //       status: response.status,
+  //       statusText: response.statusText,
+  //       url: response.url
+  //     });
+      
+  //     const data = await response.json();
+  //     console.log("📊 Server response data:", data);
+      
+  //   } catch (error) {
+  //     console.log("❌ Server connection test failed:", error);
+  //   }
+  // };
+  
+  // // Call this in useEffect to test server on component mount
+  // useEffect(() => {
+  //   testServerConnection();
+  //   fetchPosts();
+  // }, []);
+
+
+
   // const fetchPosts = async (page = 1, category = null) => {
   //   try {
   //     setIsLoading(true);
@@ -350,19 +642,25 @@ export default function BlogSection() {
   
   //     const response = await axios.get(url);
       
+  //     // Check if we actually got posts or if the response is empty
+  //     if (!response.data || !response.data.data || response.data.data.length === 0) {
+  //       throw new Error("No posts returned from API or empty response");
+  //     }
+      
   //     // The backend returns: { success: true, data: posts, pagination: {...} }
   //     // So we access response.data.data for posts and response.data.pagination for pagination
-  //     setPosts(response.data.data || []);
-  //     setTotalPosts(response.data.pagination?.totalPosts || 0);
+  //     setPosts(response.data.data);
+  //     setTotalPosts(response.data.pagination?.totalPosts || response.data.data.length);
   //     setCurrentPage(page);
   //     setSelectedCategory(category || "All");
   //     setError(null);
   //     setUsingPlaceholders(false);
+      
   //   } catch (err) {
   //     console.error("Failed to fetch posts:", err);
       
   //     // Use placeholder posts as fallback
-  //     const filteredPlaceholders = category && category !== "All" 
+  //     const filteredPlaceholders = (category && category !== "All") 
   //       ? PLACEHOLDER_POSTS.filter(post => post.category === category)
   //       : PLACEHOLDER_POSTS;
       
@@ -372,59 +670,15 @@ export default function BlogSection() {
   //     setSelectedCategory(category || "All");
   //     setError("Using sample posts - unable to connect to server");
   //     setUsingPlaceholders(true);
+      
+  //     // Debug logging
+  //     console.log("Using placeholder posts:", filteredPlaceholders.length, "posts");
+  //     console.log("Category filter:", category);
+      
   //   } finally {
   //     setIsLoading(false);
   //   }
   // };
-
-  const fetchPosts = async (page = 1, category = null) => {
-    try {
-      setIsLoading(true);
-      let url = `${API_BASE_URL}?page=${page}&limit=6`;
-  
-      if (category && category !== "All") {
-        url += `&category=${category}`;
-      }
-  
-      const response = await axios.get(url);
-      
-      // Check if we actually got posts or if the response is empty
-      if (!response.data || !response.data.data || response.data.data.length === 0) {
-        throw new Error("No posts returned from API or empty response");
-      }
-      
-      // The backend returns: { success: true, data: posts, pagination: {...} }
-      // So we access response.data.data for posts and response.data.pagination for pagination
-      setPosts(response.data.data);
-      setTotalPosts(response.data.pagination?.totalPosts || response.data.data.length);
-      setCurrentPage(page);
-      setSelectedCategory(category || "All");
-      setError(null);
-      setUsingPlaceholders(false);
-      
-    } catch (err) {
-      console.error("Failed to fetch posts:", err);
-      
-      // Use placeholder posts as fallback
-      const filteredPlaceholders = (category && category !== "All") 
-        ? PLACEHOLDER_POSTS.filter(post => post.category === category)
-        : PLACEHOLDER_POSTS;
-      
-      setPosts(filteredPlaceholders);
-      setTotalPosts(filteredPlaceholders.length);
-      setCurrentPage(1);
-      setSelectedCategory(category || "All");
-      setError("Using sample posts - unable to connect to server");
-      setUsingPlaceholders(true);
-      
-      // Debug logging
-      console.log("Using placeholder posts:", filteredPlaceholders.length, "posts");
-      console.log("Category filter:", category);
-      
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
 
   useEffect(() => {
