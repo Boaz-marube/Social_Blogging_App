@@ -36,6 +36,7 @@ app.use(cors(corsOptions));
 
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
+
 // Database connection
 // connectDB();
 // Routes
@@ -49,6 +50,9 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/comments", commentRoute);
+
+app.use("/uploads", express.static("public/uploads"));
+
 
 const startServer = async () => {
   try {
