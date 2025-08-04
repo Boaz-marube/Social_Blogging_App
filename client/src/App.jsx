@@ -14,6 +14,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
+import MyPostsPage from "./components/MyPosts";
 
 import Dashboard from "./pages/DashBoard";
 import ProtectedRoute from "./components/ProtectedRoutes";
@@ -77,6 +78,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <CreatePost />
+                  </ProtectedRoute>
+                }
+              />
+                <Route
+                path="/my-post"
+                element={
+                  <ProtectedRoute>
+                    <MyPostsPage />
                   </ProtectedRoute>
                 }
               />

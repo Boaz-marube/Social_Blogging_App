@@ -1,24 +1,43 @@
-# Social Blog App
 
-# API (BackEnd)
+# 📰 Social Blog App
 
-A RESTful API built with Node.js, Express, MongoDB, and JWT for authentication. It handles user registration, login, post creation, updating, deletion, and category management.
+A modern full-stack blogging platform that enables users to register, create and manage posts, upload images, comment, and engage with a growing online community.
 
----
+## 🏗️ Tech Stack
 
-## 🚀 Features
+### 🌐 Frontend
+- React – Component-based UI
+- Vite – Fast dev server and bundler
+- Tailwind CSS – Utility-first styling
+- Flowbite React – Prebuilt UI components
+- Axios – API communication
+- React Router – Client-side routing
 
-- User registration & login (with hashed passwords)
-- JWT-based authentication (recommended for enhancement)
-- CRUD for blog posts
-- Categorization of posts
-- Modular routing for users, posts, auth, and categories
-- MongoDB as the database
+### 🔧 Backend
+- Node.js – Runtime environment
+- Express.js – API framework
+- MongoDB – NoSQL database
+- Mongoose – ODM for MongoDB
+- JWT – User authentication
+- Multer – File upload middleware
+- Docker – Containerization
 
----
+## 🔐 Features
+- 🔑 User registration and login with hashed passwords
+- 🛡️ JWT-based protected routes
+- ✍️ Create, update, delete, and view blog posts
+- 🖼️ Upload and display cover images
+- ❤️ Like and unlike posts
+- 🧾 Check if a user has liked a post
+- 📚 Category-based post filtering (in progress)
+- 🧠 Modular, clean codebase with separate controllers, routes, and middleware
+- 🐳 Dockerized for easy deployment
+
+## 🚀 Getting Started
+
 
 ## 📦 Project Structure
-
+### BackEnd
 ```
 api/
 │
@@ -41,14 +60,24 @@ api/
 ├── package.json
 └── README.md
 ```
+### FrontEnd
 
+src/
+│
+├── components/      # Reusable UI components
+├── pages/           # Route-based views (Home, Login, etc.)
+├── context/         # Auth context, global state
+├── assets/          # Images, icons
+├── App.jsx
+└── main.jsx
 ---
 
 ## 🛠️ Getting Started
 
 ### 1. Clone the Repository
+```
 
-```bash
+``````bash
 git clone https://github.com/Boaz-marube/Social_Blogging_App.git
 cd api
 ```
@@ -109,36 +138,13 @@ node index.js
 
 ---
 
-## 👥 For Collaborators
 
-To contribute:
+## 👥 Contributors
 
-1. Fork the repo and clone it.
-2. Create a new branch:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "Add: your message"
-   ```
-4. Push to your branch:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-5. Open a Pull Request
+| Name               | Role                       |
+| :----------------- | :------------------------- |
+| **Saba Haddis**    | UI/UX Designer             |
+| **Boaz Marube**    | Full Stack Developer       |
+| **Bereket Eshete** | Full Stack Developer       |
+| **Ushindi Sidi**   | AI Integration & QA Tester |
 
-> 📌 Follow consistent formatting and use environment variables where needed. Keep secrets out of the repo.
-
----
-
-
-## 🧳 Future Improvements
-
-- Add JWT token generation and auth middleware
-- Validate duplicate email/username on registration
-- Add pagination to posts
-- Upload images with posts
-- Add user role management
-
----
