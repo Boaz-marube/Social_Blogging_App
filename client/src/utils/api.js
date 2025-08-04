@@ -25,17 +25,38 @@ const api = axios.create({
   withCredentials: true, // Include cookies if your backend uses them
 });
 
-// Request interceptor
+// // Request interceptor
+// api.interceptors.request.use(
+//   (config) => {
+//     console.log(`🚀 API Request: ${config.method.toUpperCase()} ${config.url}`);
+//     return config;
+//   },
+//   (error) => {
+//     console.error('❌ Request error:', error);
+//     return Promise.reject(error);
+//   }
+// );
+
+// src/services/api.js - Updated request interceptor
 api.interceptors.request.use(
-  (config) => {
-    console.log(`🚀 API Request: ${config.method.toUpperCase()} ${config.url}`);
-    return config;
-  },
-  (error) => {
-    console.error('❌ Request error:', error);
-    return Promise.reject(error);
-  }
-);
+    (config) => {
+      // Add Bearer token if available
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      
+      console.log(`🚀 API Request: ${config.method.toUpperCase()} ${config.url}`);
+      console.log('🔑 Token present:', !!token);
+      return config;
+    },
+    (error) => {
+      console.error('❌ Request error:', error);
+      return Promise.reject(error);
+    }
+  );
+  
+
 
 // Response interceptor
 api.interceptors.response.use(
