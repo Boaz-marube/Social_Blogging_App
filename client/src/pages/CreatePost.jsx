@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { PlusCircle, Save, Upload, Edit } from "lucide-react";
 import { toast } from "react-toastify";
-import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { apiCall } from "../../src/utils/api";
 
 const CreatePostForm = () => {
-  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   
   const categoriesList = [
@@ -58,31 +56,30 @@ const CreatePostForm = () => {
     }
   };
 
-  const validateForm = () => {
+  const validateForm = (isDraft = false) => {
+    // For drafts, we only require a title - content can be empty
     if (!formData.title.trim()) {
       toast.error("Title is required");
       return false;
     }
-    if (!formData.content.trim()) {
-      toast.error("Content is required");
-      return false;
+    
+    // For published posts, we need all required fields
+    if (!isDraft) {
+      if (!formData.content.trim()) {
+        toast.error("Content is required");
+        return false;
+      }
+      if (!formData.categories) {
+        toast.error("Please select a category");
+        return false;
+      }
     }
-    if (!formData.categories) {
-      toast.error("Please select a category");
-      return false;
-    }
+    
     return true;
   };
 
-  // Using your API service
   const submitPost = async (isDraft = false) => {
-    if (!isAuthenticated) {
-      toast.error("Please login to create a post");
-      navigate('/signin');
-      return;
-    }
-
-    if (!validateForm() && !isDraft) {
+    if (!validateForm(isDraft)) {
       return;
     }
 
@@ -98,16 +95,14 @@ const CreatePostForm = () => {
       postData.append('categories', formData.categories);
       postData.append('tags', formData.tags);
       
+      // IMPORTANT: Set the published status based on whether it's a draft or not
+      postData.append('published', !isDraft);
+      
       if (formData.coverImage) {
         postData.append('coverImage', formData.coverImage);
       }
 
-      // Use your API service
-
       const response = await apiCall.post('https://social-blogging-app-hz1t.onrender.com/api/posts', postData, {
-
-     //const response = await axios.post('https://social-blogging-app-hz1t.onrender.com/api/posts', postData, {
-
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -127,16 +122,19 @@ const CreatePostForm = () => {
         });
         setCoverImagePreview(null);
         
-        // Navigate to the new post
-        if (!isDraft) {
-          navigate(`/blog/${response.data._id}`);
+        // Navigate appropriately
+        if (isDraft) {
+          // Navigate to My Posts page to see the saved draft
+          navigate('/my-posts');
         } else {
-          navigate('/dashboard');
+          // Navigate to the published post
+          navigate(`/blog/${response.data._id}`);
         }
       }
     } catch (error) {
       console.error('Error submitting post:', error);
-      toast.error(error.message || (isDraft ? 'Failed to save draft' : 'Failed to publish post'));
+      const errorMessage = error.response?.data?.message || error.message || (isDraft ? 'Failed to save draft' : 'Failed to publish post');
+      toast.error(errorMessage);
     } finally {
       loadingSetter(false);
     }
@@ -144,11 +142,11 @@ const CreatePostForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    submitPost(false);
+    submitPost(false); // Published post
   };
 
   const handleSaveDraft = () => {
-    submitPost(true);
+    submitPost(true); // Draft post
   };
 
   return (
@@ -253,7 +251,7 @@ const CreatePostForm = () => {
           {/* Content */}
           <div>
             <label htmlFor="content" className="block text-lg font-medium text-gray-700 dark:text-gray-300">
-              Content *
+              Content {!isSavingDraft && '*'}
             </label>
             <textarea
               id="content"
@@ -262,15 +260,17 @@ const CreatePostForm = () => {
               onChange={handleChange}
               rows="10"
               placeholder="Write your blog post content here..."
-              required
               className="block w-full px-4 py-3 mt-1 border border-gray-300 shadow-sm rounded-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
+            <p className="mt-1 text-sm text-gray-500">
+              Content is required for published posts but optional for drafts
+            </p>
           </div>
 
           {/* Categories */}
           <div>
             <label htmlFor="categories" className="block text-lg font-medium text-gray-700 dark:text-gray-300">
-              Categories *
+              Categories {!isSavingDraft && '*'}
             </label>
             <select
               id="categories"
@@ -278,7 +278,6 @@ const CreatePostForm = () => {
               value={formData.categories}
               onChange={handleChange}
               className="block w-full px-4 py-3 mt-1 border border-gray-300 shadow-sm rounded-xl focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              required
             >
               <option value="" disabled>Select a category</option>
               {categoriesList.map((category) => (
@@ -287,6 +286,9 @@ const CreatePostForm = () => {
                 </option>
               ))}
             </select>
+            <p className="mt-1 text-sm text-gray-500">
+              Category is required for published posts but optional for drafts
+            </p>
           </div>
 
           {/* Tags */}
@@ -336,7 +338,7 @@ const CreatePostForm = () => {
               {isSavingDraft ? (
                 <>
                   <Upload className="w-5 h-5 mr-2 animate-spin" />
-                  Saving...
+                  Saving Draft...
                 </>
               ) : (
                 <>

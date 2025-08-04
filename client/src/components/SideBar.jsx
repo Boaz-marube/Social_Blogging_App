@@ -57,9 +57,9 @@ export default function Dashboard() {
   // Sidebar navigation items
   const navItems = [
     { name: 'Home', icon: Home, link: '/home' },
-    { name: 'All Posts', icon: FileText, link: '/posts' },
+    { name: 'All Posts', icon: FileText, link: '/my-posts' },
     { name: 'Create Post', icon: PlusSquare, link: '/create-post' },
-    { name: 'My Posts', icon: LayoutDashboard, link: '/my-posts' },
+    { name: 'My Posts', icon: LayoutDashboard, link: '/my-post' },
   ];
 
   // Get current page name for active state
