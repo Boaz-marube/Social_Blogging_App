@@ -26,6 +26,7 @@ content_editing_task:
   expected_output: >
     A final, polished version of the blog post, ready for summarization and publishing.
   agent: editor_agent
+  output_file: blog_post.md
 
 metadata_generation_task:
   description: >
