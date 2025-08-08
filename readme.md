@@ -62,14 +62,24 @@ api/
 ```
 ### FrontEnd
 
-src/
-│
-├── components/      # Reusable UI components
-├── pages/           # Route-based views (Home, Login, etc.)
-├── context/         # Auth context, global state
-├── assets/          # Images, icons
-├── App.jsx
-└── main.jsx
+```
+client/ (Frontend)
+   ├── public/
+   ├── src/
+   │   ├── assets/
+   │   ├── components/
+   │   ├── context/
+   │   ├── pages/
+   │   ├── utils/
+   │   ├── App.jsx
+   │   ├── main.jsx
+   ├── index.html
+   ├── package.json
+   ├── package-lock.json
+   ├── tailwind.config.js
+   ├── postcss.config.js
+   ├── vite.config.js
+```
 ---
 
 ## 🛠️ Getting Started
